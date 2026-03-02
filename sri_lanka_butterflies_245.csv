@@ -1,0 +1,246 @@
+butterfly_id,species_name_trinomial,species_name_binomial,family,common_name_english,common_name_sinhalese,national_red_list_category_2012,status
+b001,Graphium agamemnon menides,Graphium agamemnon,Papilionidae,Tailed Jay,Thudanga Pralapani,LC,Not endemic
+b002,Graphium antiphates ceylonicus,Graphium antiphates,Papilionidae,Fivebar Swordtail,Pancha iri kaga-waligaya,EN,Not endemic
+b003,Graphium doson doson,Graphium doson,Papilionidae,Common Jay,Pralapani,LC,Endemic subspecies
+b004,Graphium nomius nomius,Graphium nomius,Papilionidae,Spot Swordtail,Thith Kaga-waligaya,VU,Not endemic
+b005,Graphium sarpedon teredon,Graphium sarpedon,Papilionidae,Common Bluebottle,Neelabomi,LC,Endemic subspecies
+b006,Pachliopta aristolochiae ceylonica,Pachliopta aristolochiae,Papilionidae,Common Rose,Sewwandiya,LC,Endemic subspecies
+b007,Pachliopta hector,Pachliopta hector,Papilionidae,Crimson Rose,Arunu Sewwandiya,LC,Not endemic
+b008,Pachliopta jophon,Pachliopta jophon,Papilionidae,Sri Lankan Rose,Sri Lanka rosa papiliya,EN,Endemic
+b009,Papilio clytia lankeswara,Papilio clytia,Papilionidae,Mime,Rawana Papiliya,LC,Endemic subspecies
+b010,Papilio crino,Papilio crino,Papilionidae,Banded Peacock,Mayurabada,VU,Not endemic
+b011,Papilio demoleus demoleus,Papilio demoleus,Papilionidae,Lime Butterfly,Dehirisiya,LC,Not endemic
+b012,Papilio helenus mooreanus,Papilio helenus,Papilionidae,Red Helen,Maha Kela Papiliya,VU,Endemic subspecies
+b013,Papilio polymnestor parinda,Papilio polymnestor,Papilionidae,Blue Mormon,Neela Parindaya,LC,Endemic subspecies
+b014,Papilio polytes romulus,Papilio polytes,Papilionidae,Common Mormon,Wesgaththi,LC,Not endemic
+b015,Troides darsius,Troides darsius,Papilionidae,Sri Lankan Birdwing,Sri Lanka Maha Kurulu Piya Paliliya,LC,Endemic
+b016,Appias albina swinhoei,Appias albina,Pieridae,Common Albatross,Dingupath Samanalaya,LC,Endemic subspecies
+b017,Appias galene,Appias galene,Pieridae,Sri Lankan Lesser Albatross,Sri Lanka Thundu Dingupath Samanalaya,LC,Endemic
+b018,Appias indra narendra,Appias indra,Pieridae,Plain Puffin,Dumbara-sudana,CR,Endemic subspecies
+b019,Appias libythea libythea,Appias libythea,Pieridae,Striped Albatross,Iri Sudana,LC,Not endemic
+b020,Appias lyncida taprobana,Appias lyncida,Pieridae,Chocolate Albatross,Dumburuwan Sudana,LC,Endemic subspecies
+b021,Belenois aurota taprobana,Belenois aurota,Pieridae,Pioneer,Apsaravi,LC,Endemic subspecies
+b022,Catopsilia pomona pomona,Catopsilia pomona,Pieridae,Lemon Emigrant,Dehi seriya,LC,Not endemic
+b023,Catopsilia pyramhe pyramhe,Catopsilia pyramhe,Pieridae,Mottled Emigrant,Lapa seriya,LC,Not endemic
+b024,Catopsilia scylla,Catopsilia scylla,Pieridae,Orange Migrant,-,LC,New arrival in Sri Lanka (2008); breeding resident
+b025,Cepora nadina cingala,Cepora nadina,Pieridae,Lesser Gull,Heen Panduru-sudana,CR,Endemic subspecies
+b026,Cepora nerissa phryne,Cepora nerissa,Pieridae,Common Gull,Lihini Samanalaya,LC,Not endemic
+b027,Colotis amata modesta,Colotis amata,Pieridae,Small Salmon Arab,Punchi Rosa Sudana,LC,Not endemic
+b028,Colotis aurora,Colotis aurora,Pieridae,Plain Orange Tip,Podu Tembiliwan Sudana,VU,Not endemic
+b029,Colotis danae danae,Colotis danae,Pieridae,Crimson Tip,Rathu-thudu Sudda,VU,Not endemic
+b030,Colotis etrida limbata,Colotis etrida,Pieridae,Little Orange Tip,Heen Sudana,VU,Endemic subspecies
+b031,Colotis fausta fulvia,Colotis fausta,Pieridae,Large Salmon Arab,Maha Rosa Sudana,VU,Not endemic
+b032,Delias eucharis,Delias eucharis,Pieridae,Jezebel,Pilila Risiya,LC,Not endemic
+b033,Eurema ormistoni,Eurema ormistoni,Pieridae,One-spot Grass Yellow,Sri Lanka Kela kahakolaya,VU,Endemic
+b034,Eurema blanda citrina,Eurema blanda,Pieridae,Three-spot Grass Yellow,Thun pulli Thruna Pithaya,LC,Endemic subspecies
+b035,Eurema brigitta rubella,Eurema brigitta,Pieridae,Small Grass Yellow,Rubella Thruna pithaya,LC,Not endemic
+b036,Eurema hecabe hecabe,Eurema hecabe,Pieridae,Common Grass Yellow,Thruna Pithaya,LC,Not endemic
+b037,Eurema laeta rama,Eurema laeta,Pieridae,Spotless Grass Yellow,Nothith Thruna Pithaya,VU,Endemic subspecies
+b038,Hebomoia glaucippe ceylonica,Hebomoia glaucippe,Pieridae,Great Orange Tip,Maha Ramba Thuduwa,LC,Endemic subspecies
+b039,Ixias marianne,Ixias marianne,Pieridae,White Orange Tip,Ela Ramba Thuduwa,LC,Not endemic
+b040,Ixias pyrene cingalensis,Ixias pyrene,Pieridae,Yellow Orange Tip,Padu Ramba Thuduwa,LC,Endemic subspecies
+b041,Leptosia nina nina,Leptosia nina,Pieridae,Psyche,Manahari,LC,Not endemic
+b042,Pareronia ceylanica ceylanica,Pareronia ceylanica,Pieridae,Dark Wanderer,Anduru seriya,LC,Not endemic
+b043,Prioneris sita,Prioneris sita,Pieridae,Painted Saw-tooth,Vichitra Maha-sudda,EN,Not endemic
+b044,Acraea violae,Acraea violae,Nymphalidae,Tawny Coster,Viyola,LC,Not endemic
+b045,Argymis hyperbius taprobana,Argymis hyperbius,Nymphalidae,Indian Fritillary,Indiyanu Alankarikaya,EN,Endemic subspecies
+b046,Ariadne ariadne minorata,Ariadne ariadne,Nymphalidae,Angled Castor,Naw-Risiya,LC,Endemic subspecies
+b047,Ariadne merione taprobana,Ariadne merione,Nymphalidae,Common Castor,Podu Pathan-sariya,VU,Endemic subspecies
+b048,Byblia ilithyia,Byblia ilithyia,Nymphalidae,Joker,Kawataya,VU,Not endemic
+b049,Cethosia niemeri niemeri,Cethosia niemeri,Nymphalidae,Ceylon Lace Wing,Lanka Seda-piyapatha,LC,Endemic subspecies
+b050,Charaxes athamas athamas,Polyura athamas,Nymphalidae,Nawab,Kaha Kumaraya,LC,Not endemic
+b051,Charaxes psaphon psaphon,Charaxes psaphon,Nymphalidae,Tawny Rajah,Maha Kumaraya,NT,Endemic subspecies
+b052,Charaxes solon cervulhus,Charaxes solon,Nymphalidae,Black Rajah,Kalu Raja-kumaraya,NT,Endemic subspecies
+b053,Cirrochroa thais lanka,Cirrochroa thais,Nymphalidae,Tamil Yeoman/ Yeoman,Kela Raththiya,LC,Endemic subspecies
+b054,Cupha erymanthis placida,Cupha erymanthis,Nymphalidae,Rustic,Raththiya,LC,Endemic subspecies
+b055,Danaus chrysippus chrysippus,Danaus chrysippus,Nymphalidae,Plain Tiger,Pahan Gomara,LC,Not endemic
+b056,Danaus genutia genutia,Danaus genutia,Nymphalidae,Common Tiger,Agni Gomara,LC,Not endemic
+b057,Discophora lepida ceylonica,Discophora lepida,Nymphalidae,Southern Duffer,Dumburn Kewattaya,VU,Endemic subspecies
+b058,Doleschallia bisaltide ceylonica,Doleschallia bisaltide,Nymphalidae,Autumn Leaf,Yoda kelakolaya,EN,Endemic subspecies
+b059,Dophila evelina evelina,Dophila evelina,Nymphalidae,Redspot Duke,Rath-ne,LC,Endemic subspecies
+b060,Elymnias hypermuestra fraterna,Elymnias hypermuestra,Nymphalidae,Common Palmfly,Ramba-thaliya,LC,Endemic subspecies
+b061,Elymnias singhala,Elymnias singhala,Nymphalidae,Sri Lankan Palmfly,Sri Lanka Thal-dumburuwa,EN,Endemic
+b062,Euploea core asela,Euploea core,Nymphalidae,Common Indian Crow,Indu Kakaya,LC,Endemic subspecies
+b063,Euploea klugii sinhala,Euploea klugii,Nymphalidae,Brown King Crow,Raja Kaka-kotithiya,LC,Endemic subspecies
+b064,Euploea phaenareta corus,Euploea phaenareta,Nymphalidae,Great Crow,Yoda Kaka-kotithiya,EN,Endemic subspecies
+b065,Euploea sylvester montana,Euploea sylvester,Nymphalidae,Double-branded Black Crow,De-iri Kaka-kotithiya,NT,Endemic subspecies
+b066,Euthalia aconthea vasanta,Euthalia aconthea,Nymphalidae,Baron,Sitano,LC,Endemic subspecies
+b067,Euthalia lubentina psittacus,Euthalia lubentina,Nymphalidae,Gaudy Baron,Kela Achchilaya,VU,Endemic subspecies
+b068,Hypolimnas bolina bolina,Hypolimnas bolina,Nymphalidae,Great Eggfly,Maha-siwwa,LC,Not endemic
+b069,Hypolimnas misippus,Hypolimnas misippus,Nymphalidae,Danaid Eggfly,Punchi-siwwa,LC,Not endemic
+b070,Idea iasonia,Idea iasonia,Nymphalidae,Sri Lankan Tree Nymph,Sri Lanka Pawenna,VU,Endemic
+b071,Ideopsis similis exprompta,Ideopsis similis,Nymphalidae,Blue Glassy Tiger,Maha Nil-kotithiya,VU,Not endemic
+b072,Junonia almana almana,Junonia almana,Nymphalidae,Peacock Pansy,Mayura Pansaya,LC,Not endemic
+b073,Junonia atlites atlites,Junonia atlites,Nymphalidae,Grey Pansy,Alu Pansaya,LC,Not endemic
+b074,Junonia hierta hierta,Junonia hierta,Nymphalidae,Yellow Pansy,Peetha Pansaya,CR,Not endemic
+b075,Junonia iphita pluviatilis,Junonia iphita,Nymphalidae,Chocolate Soldier,Miyuru-Hewa,LC,Not endemic
+b076,Junonia lemonias vaisya,Junonia lemonias,Nymphalidae,Lemon Pansy,Pangiri Pansaya,LC,Endemic subspecies
+b077,Junonia orithya patenas,Junonia orithya,Nymphalidae,Blue Pansy,Nil Alankarikaya,EN,Endemic subspecies
+b078,Kallima philarchus,Kallima philarchus,Nymphalidae,Sri Lankan Blue Oakleaf,Sri Lanka Nil Kela-kolaya,EN,Endemic
+b079,Kaniska canace haronica,Kaniska canace,Nymphalidae,Blue Admiral,Nil Seneviya,LC,Endemic subspecies
+b080,Lethe daretis,Lethe daretis,Nymphalidae,Sri Lankan Treebrown,Sri Lanka Gas-dumburuwa,LC,Endemic
+b081,Lethe drypetis drypetis,Lethe drypetis,Nymphalidae,Tamil Treebrown,Maha- Gas-dumburuwa,EN,Endemic subspecies
+b082,Lethe dynsate,Lethe dynsate,Nymphalidae,Sri Lankan Forester,Sri Lanka Kela Gas-dumburuwa,EN,Endemic
+b083,Lethe rohria neelgheriensis,Lethe rohria,Nymphalidae,Common Tree Brown,Podu Gas-dumburuwa,EN,Not endemic
+b084,Libythea laius lepitoides,Libythea laius,Nymphalidae,Beak,Dumburu-thuduwa,EN,Not endemic
+b085,Libythea myrrha rama,Libythea myrrha,Nymphalidae,Club Beak,Dandu Dumburu-thuduwa,VU,Endemic subspecies
+b086,Melanitis leda leda,Melanitis leda,Nymphalidae,Common Evening Brown,Gomman-guruwa,LC,Not endemic
+b087,Melanitis phedima tambra,Melanitis phedima,Nymphalidae,Dark Evening Brown,Anduru Gomman-guruwa,NT,Endemic subspecies
+b088,Moduza procris calidasa,Moduza procris,Nymphalidae,Commander,Maha Selaruwa,LC,Endemic subspecies
+b089,Mycalesis mineus polydecta,Mycalesis mineus,Nymphalidae,Dark-brand Bushbrown,Anduru-lapa panduru Guruwa,LC,Not endemic
+b090,Mycalesis patnia patnia,Mycalesis patnia,Nymphalidae,Gladeye Bushbrown,Min-neth panduru Guruwa,LC,Endemic subspecies
+b091,Mycalesis perseus typhius,Mycalesis perseus,Nymphalidae,Common Bushbrown,Panduru Guruwa,LC,Not endemic
+b092,Mycalesis rama,Mycalesis rama,Nymphalidae,Sri Lankan Cingalese Bushbrown,Sri Lanka Panduru-dumburuwa,EN,Endemic
+b093,Mycalesis subdita,Mycalesis subdita,Nymphalidae,Sri Lankan Tamil Bushbrown,Sri Lanka Damiia Panduru-dumburuwa,LC,Endemic
+b094,Neptis hylas varmona,Neptis hylas,Nymphalidae,Common Sailor,Selaruwa,LC,Not endemic
+b095,Neptis jumbah nalanda,Neptis jumbah,Nymphalidae,Chestnut-streaked Sailor,Wairan Selaruwa,LC,Not endemic
+b096,Orsotriaena medus mandata,Orsotriaena medus,Nymphalidae,Medus Brown,Iri Siw-mudda,LC,Not endemic
+b097,Pantoporia hordonia sinuata,Pantoporia hordonia,Nymphalidae,Common Lascar,Kaha Selaruwa,NT,Endemic subspecies
+b098,Paramica aglea aglea,Paramica aglea,Nymphalidae,Glassy Tiger,Palingu Gomara,LC,Not endemic
+b099,Paramica taprobana,Paramica taprobana,Nymphalidae,Sri Lankan Tiger/Monarch,Sri Lanka Nil-kotithiya,EN,Endemic
+b100,Parthenos sylvia cyaneus,Parthenos sylvia,Nymphalidae,Clipper,Yoda Kela Selaruwa,LC,Endemic subspecies
+b101,Phalanta alcippe ceylonica,Phalanta alcippe,Nymphalidae,Small Leopard,Punchi Thith-thambiliya,CR,Endemic subspecies
+b102,Phalanta phalantha phalantha,Phalanta phalantha,Nymphalidae,Leopard,Maha Diwi-Pulliya,LC,Not endemic
+b103,Rohana parisatis camiba,Rohana parisatis,Nymphalidae,Black Prince,Kalu Kumaraya,VU,Endemic subspecies
+b104,Symphaedra nais,Symphaedra nais,Nymphalidae,Baronet,Punchi Achchilaya,EN,Not endemic
+b105,Tirumala limniace exoticus,Tirumala limniace,Nymphalidae,Blue Tiger,Neela Gomara,LC,Not endemic
+b106,Tirumala septentrionis musikanos,Tirumala septentrionis,Nymphalidae,Dark Blue Tiger,Anduruwan Nil-kotithiya,NT,Endemic subspecies
+b107,Vanessa cardui,Vanessa cardui,Nymphalidae,Painted Lady,Vichiitra Alnkarikaya,VU,Not endemic
+b108,Vanessa indica nubicola,Vanessa indica,Nymphalidae,Indian Red Admiral,Rathu seneviya,EN,Endemic subspecies
+b109,Vindula erota asela,Vindula erota,Nymphalidae,Cruiser,Yoda Thambiliya,NT,Endemic subspecies
+b110,Ypthima ceylonica,Ypthima ceylonica,Nymphalidae,White Four-ring,Sithiri Siwwa,LC,Not endemic
+b111,Ypthima singala,Ypthima singala,Nymphalidae,Sri Lankan Jewel Four-ring,Sri Lanka Ran Heen-dumburuwa,EN,Endemic
+b112,Abisara echerius prunosa,Abisara echerius,Riodinidae,Plum Judy,Dan-samanalaya,LC,Not endemic
+b113,Acytolepis lilacea moorei,Acytolepis lilacea,Lycaenidae,Hampson's Hedge Blue,Hampson Gonnu Neelaya,EN,Endemic subspecies
+b114,Acytolepis puspa felderi,Acytolepis puspa,Lycaenidae,Common Hedge Blue,Gonnu Neelaya,LC,Not endemic
+b115,Amblypodia anita naradoides,Amblypodia anita,Lycaenidae,Purple Leafblue,Dam-path Neelaya,NT,Endemic subspecies
+b116,Antheme lycaenina lycaenina,Antheme lycaenina,Lycaenidae,Pointed Ciliate Blue,UI Kirana-neelaya,LC,Not endemic
+b117,Arhopala abseus mackwoodi,Arhopala abseus,Lycaenidae,Aberrant Bushblue,Kela Gas-neelaya,EN,Endemic subspecies
+b118,Arhopala amantes amantes,Arhopala amantes,Lycaenidae,Large Oakblue,Maha-siduru Neelaya,LC,Not endemic
+b119,Arhopala centaurus pirama,Arhopala centaurus,Lycaenidae,Centaur Oakblue,Samila Neelaya,LC,Not endemic
+b120,Arhopala ormistoni,Arhopala ormistoni,Lycaenidae,Sri Lankan Ormiston's Oakblue,Sri Lanka Siduru Neelaya,CR,Endemic
+b121,Azanus jesous gamra,Azanus jesous,Lycaenidae,African Babul Blue,Rata Neelaya,LC,Not endemic
+b122,Azanus ubaldus,Azanus ubaldus,Lycaenidae,Bright Babul Blue,Punchi neelaya,CR,Not endemic
+b123,Bindahara phocides moorei,Bindahara phocides,Lycaenidae,Plane,Visithuru Digu-penda Neelaya,EN,Not endemic
+b124,Caleta decidia,Caleta decidia,Lycaenidae,Angled Pierrot,Mulu Konangiya,LC,Not endemic
+b125,Castalius rosimon rosimon,Castalius rosimon,Lycaenidae,Common Pierrot,Konangiya,LC,Not endemic
+b126,Catapaceilma major myosotina,Catapaceilma major,Lycaenidae,Common Tinsel,Visithuru Gas-neelaya,EN,Endemic subspecies
+b127,Catochrysops panormus panormus,Catochrysops panormus,Lycaenidae,Silver Forget-me-not,Rajatha Sadasiya,CR,Not endemic
+b128,Catochrysops strabo strabo,Catochrysops strabo,Lycaenidae,Forget-me-not,Sadasiya,LC,Not endemic
+b129,Celastrina lavendularis lavendularis,Celastrina lavendularis,Lycaenidae,Plain Hedge Blue,Sarala Gomu Neelaya,CR,Not endemic
+b130,Cheritra freja pseudojafra,Cheritra freja,Lycaenidae,Common Imperial,Digu-penda Gas-neelaya,VU,Endemic subspecies
+b131,Childales lajus lajus,Childales lajus,Lycaenidae,Lime Blue,Dehi-neelaya,LC,Not endemic
+b132,Childales pandava lanka,Childales pandava,Lycaenidae,Plains Cupid,Meewana-sara,LC,Endemic subspecies
+b133,Childales parrhasius nila,Childales parrhasius,Lycaenidae,Small Cupid,Punchi Panu-neelaya,LC,Endemic subspecies
+b134,Caretis thetis,Caretis thetis,Lycaenidae,Indian Sunbeam,Wismi-keeta,LC,Not endemic
+b135,Deudorix epijarbus epijarbus,Deudorix epijarbus,Lycaenidae,Cornelian,Podu Kirana-neelaya,VU,Not endemic
+b136,Discolampa ethion ethion,Discolampa ethion,Lycaenidae,Banded Blue Pierrot,Nil Konangiya,LC,Not endemic
+b137,Euchrysops cuejus cuejus,Euchrysops cuejus,Lycaenidae,Gram Blue,Mun-risiya,LC,Not endemic
+b138,Everes lacturnus lacturnus,Everes lacturnus,Lycaenidae,Indian Cupid,Malavi Parasiya,LC,Not endemic
+b139,Freyeria pulli,Freyeria pulli,Lycaenidae,Grass Jewel,Palamini,LC,Not endemic
+b140,Horaga albimacula viola,Horaga albimacula,Lycaenidae,Brown Onyx,Guru Agasthiya,CR,Not endemic
+b141,Horaga onyx cingalensis,Horaga onyx,Lycaenidae,Blue Onyx,Nil Agasthiya,CR,Not endemic
+b142,Hypolycaena nilgirica,Hypolycaena nilgirica,Lycaenidae,Nilgiri Tit,Niligiri neclaya,LC,Not endemic
+b143,Ionolyce helicon viola,Ionolyce helicon,Lycaenidae,Pointed Lineblue,Thuduri Neclaya,CR,Not endemic
+b144,Iraota timoleon nicevillei,Iraota timoleon,Lycaenidae,Silverstreak Blue,Redee Gas-neclaya,EN,Endemic subspecies
+b145,Jamides alecto melilchius,Jamides alecto,Lycaenidae,Metallic Cerulean,Dili Seruliya,LC,Endemic subspecies
+b146,Jamides bochus bochus,Jamides bochus,Lycaenidae,Dark Cerulean,Anduru Seruliya,LC,Not endemic
+b147,Jamides celeno tissama,Jamides celeno,Lycaenidae,Common Cerulean,Seruliya,LC,Endemic subspecies
+b148,Jamides coruscans,Jamides coruscans,Lycaenidae,Sri Lankan Cerulean,Sri Lanka Seru-nilaya,VU,Endemic
+b149,Jamides lacteata,Jamides lacteata,Lycaenidae,Sri Lankan Milky Cerulean,Sri Lanka Ela Seruliya,VU,Endemic
+b150,Lampides boeticus,Lampides boeticus,Lycaenidae,Pea Blue,Mun-neelaya,LC,Not endemic
+b151,Leptotes plinius plinius,Leptotes plinius,Lycaenidae,Zebra Blue,Sabaru Neelaya,LC,Not endemic
+b152,Loxura atymmus arcuata,Loxura atymmus,Lycaenidae,Yamfly,Kadala Samanalaya,LC,Endemic subspecies
+b153,Megisba malaya thwaitesi,Megisba malaya,Lycaenidae,Malayan,Malalini,LC,Not endemic
+b154,Nacaduba berenice ormistoni,Nacaduba berenice,Lycaenidae,Rounded Six Lineblue,Wata Iri Neelaya,DD,Not endemic
+b155,Nacaduba beroe minima,Nacaduba beroe,Lycaenidae,Opaque Six Lineblue,Adisi-Iri Neelaya,EN,Endemic subspecies
+b156,Nacaduba calauria evansi,Nacaduba calauria,Lycaenidae,Dark Ceylon Six Lineblue,Anduru Iri Neelaya,DD,Not endemic
+b157,Nacaduba hermus sidoma,Nacaduba hermus,Lycaenidae,Pale Four Lineblue,Sawri-neela,NT,Not endemic
+b158,Nacaduba kurava prominens,Nacaduba kurava,Lycaenidae,Transparent Six Lineblue,Disi-Iri Neelaya,VU,Endemic subspecies
+b159,Nacaduba oliyetti,Nacaduba oliyetti,Lycaenidae,Sri Lankan Woodhouse's Four Lineblue,Sri Lanka Wanasi-neelaya,CR,Endemic
+b160,Nacaduba pactolus ceylonica,Nacaduba pactolus,Lycaenidae,Large Four Lineblue,Maha Nil-Iriya,NT,Endemic subspecies
+b161,Nacaduba sinhala,Nacaduba sinhala,Lycaenidae,Sri Lankan Pale Ceylon Six Lineblue,Sri Lanka Hela Iri Neelaya,VU,Endemic
+b162,Neopithecops zalmora dharma,Neopithecops zalmora,Lycaenidae,Quaker,Samlani,LC,Not endemic
+b163,Petrelaea dama,Petrelaea dama,Lycaenidae,Dingy Lineblue,Dingi Nil-Iriya,EN,Not endemic
+b164,Pratapa deva deva,Pratapa deva,Lycaenidae,White Royal,Sudu Raja-nilaya,EN,Not endemic
+b165,Prosotas dubiosa indica,Prosotas dubiosa,Lycaenidae,Tailless Lineblue,Apus Iri Neelaya,LC,Not endemic
+b166,Prosotas nora ardates,Prosotas nora,Lycaenidae,Common Lineblue,Iri Neelaya,LC,Not endemic
+b167,Prosotas noreia noreia,Prosotas noreia,Lycaenidae,White-tipped Lineblue,Sudu Nil-iriya,EN,Endemic subspecies
+b168,Rapala iarbus sorya,Rapala iarbus,Lycaenidae,Indian Red Flash,Rathu Debati,DD,Not endemic
+b169,Rapala lankana,Rapala lankana,Lycaenidae,Malabar Flash,Kala Kiranaya,CR,Not endemic
+b170,Rapala manea schistacea,Rapala manea,Lycaenidae,Slate Flash,Anduru Kiranaya,LC,Not endemic
+b171,Rapala varuna lazulina,Rapala varuna,Lycaenidae,Indigo Flash,Nil Debati,VU,Not endemic
+b172,Rathinda amor,Rathinda amor,Lycaenidae,Monkey-puzzle,Rathinda,LC,Not endemic
+b173,Spalgis epeus epeus,Spalgis epeus,Lycaenidae,Apefly,Hanuman Samanalaya,LC,Not endemic
+b174,Spindasis elima fairliei,Spindasis elima,Lycaenidae,Scarce Shot Silverline,Hiru Raja-thariya,DD,Endemic subspecies
+b175,Spindasis greeni,Spindasis greeni,Lycaenidae,Green’s Silverline,-,CR,Endemic
+b176,Spindasis ietis ceylonica,Spindasis ietis,Lycaenidae,Ceylon Silverline,Hela Raja-thariya,LC,Endemic subspecies
+b177,Spindasis lohita lazularia,Spindasis lohita,Lycaenidae,Long -banded Silverline,Digu-iri Ridee-neelaya,VU,Not endemic
+b178,Spindasis nubilus,Spindasis nubilus,Lycaenidae,Sri Lankan Clouded Silverline,Sri Lanka Wala Raja-thariya,DD,Endemic
+b179,Spindasis schistacea,Spindasis schistacea,Lycaenidae,Plumbeous Silverline,Lamba Raja-thariya,VU,Not endemic
+b180,Spindasis vulcanus fusca,Spindasis vulcanus,Lycaenidae,Common Silverline,Raja-thariy,LC,Endemic subspecies
+b181,Surendra quercetorum discalis,Surendra quercetorum,Lycaenidae,Common Acacia Blue,Andara Neelaya,LC,Not endemic
+b182,Tajuria arida,Tajuria arida,Lycaenidae,Sri Lankan Indigo Royal,Sri Lanka Raja-neelaya,CR,Endemic
+b183,Tajuria cippus longinus,Tajuria cippus,Lycaenidae,Peacock Royal,Mayura Paramaya,LC,Endemic subspecies
+b184,Tajuria jehana ceylanica,Tajuria jehana,Lycaenidae,Plains Blue Royal,Podu Raja-neelaya,CR,Endemic subspecies
+b185,Talicada nyseus nyseus,Talicada nyseus,Lycaenidae,Red Pierrot,Rathu Konangiya,LC,Not endemic
+b186,Tarucus callinara,Tarucus callinara,Lycaenidae,Butler's Spotted Pierrot,Thith Konangiya,EN,Not endemic
+b187,Tarucus nara,Tarucus nara,Lycaenidae,Striped Pierrot,Thith-iri Mal-neelaya,LC,Not endemic
+b188,Udara akasa mavisa,Udara akasa,Lycaenidae,White Hedge Blue,Ela Gomu Neelaya,EN,Not endemic
+b189,Udara lanka,Udara lanka,Lycaenidae,Sri Lankan Hedge Blue,Sri Lanka Udara-neelaya,EN,Endemic
+b190,Udara singalensis,Udara singalensis,Lycaenidae,Singalese Hedge Blue,Singha Udara- neelaya,EN,Provisionally endemic
+b191,Virachola isocrates,Virachola isocrates,Lycaenidae,Common Guava Blue,Diwletha,LC,Not endemic
+b192,Virachola perse ghela,Virachola perse,Lycaenidae,Large Guava Blue,Maha Pera- neelaya,VU,Not endemic
+b193,Zesius chrysomallus,Zesius chrysomallus,Lycaenidae,Redspot,Rathu pulliya,LC,Not endemic
+b194,Zizzeria karsandra,Zizzeria karsandra,Lycaenidae,Dark Grass Blue,Neela Kasandra,LC,Not endemic
+b195,Zizina otis indica,Zizina otis,Lycaenidae,Lesser Grass Blue,Thuru-thana Neelaya,LC,Not endemic
+b196,Zizula hylax hylax,Zizula hylax,Lycaenidae,Tiny Grass Blue,Heen-thana Neelaya,LC,Not endemic
+b197,Ampitita dioscorides singa,Ampitita dioscorides,Hesperiidae,Bush Hopper,Panduru Pimma,LC,Endemic subspecies
+b198,Badamia exclamationis,Badamia exclamationis,Hesperiidae,Brown Awl,Guruleesa,LC,Not endemic
+b199,Baoris penicillata,Baoris penicillata,Hesperiidae,Sri Lankan Paintbrush Swift,Sri Lanka Thudu-sara,CR,Endemic
+b200,Baracus vittatus,Baracus vittatus,Hesperiidae,Sri Lankan Hedge Hopper,Sri Lanka Gomu Pimma,VU,Endemic
+b201,Bibasis sena sena,Bibasis sena,Hesperiidae,Orange-tailed Awl,Ramba Thudu Leesa,EN,Not endemic
+b202,Borbo cinnara,Borbo cinnara,Hesperiidae,Wallace's Swift,Wolas-sariya,LC,Not endemic
+b203,Burara oedipodea ataphus,Burara oedipodea,Hesperiidae,Banded Orange Awlet,Rambaleesa,EN,Endemic subspecies
+b204,Caltoris kumara lanka,Caltoris kumara,Hesperiidae,Blank Swift,Kalu Paha Sariya,VU,Endemic subspecies
+b205,Caltoris philippina seriata,Caltoris philippina,Hesperiidae,Philippine Swift,Rata Sariya,CR,Endemic subspecies
+b206,Caprona alida lanka,Caprona alida,Hesperiidae,Ceylon Golden Angle,Lak-ran Mulla,CR,Endemic subspecies
+b207,Caprona ransomettii ransomettii,Caprona ransomettii,Hesperiidae,Golden Angle,Ran Mulla,LC,Endemic subspecies
+b208,Celaenorrhinus spilothyrus,Celaenorrhinus spilothyrus,Hesperiidae,Sri Lankan Black Flat,Sri Lanka Kala Kunchika,VU,Endemic
+b209,Cephrenes trichopepla,Cephrenes trichopepla,Hesperiidae,Yellow Palm Dart,-,LC,New arrival in SL 2008; breeding resident
+b210,Choaspes benjamini benjamini,Choaspes benjamini,Hesperiidae,Indian Awl King,Raja-leesa,VU,Not endemic
+b211,Coladenia indrani tissa,Coladenia indrani,Hesperiidae,Tricolour Pied Flat,Trivarana Kunchika,NT,Endemic subspecies
+b212,Gangara lebadea subfasciata,Gangara lebadea,Hesperiidae,Banded Redeye,Irira-thasiya,CR,Endemic subspecies
+b213,Gangara thyxis clothilda,Gangara thyxis,Hesperiidae,Giant Redeye,Mara-thasiya,VU,Endemic subspecies
+b214,Gomalia elma albofasciata,Gomalia elma,Hesperiidae,African Marbled Skipper,Mabal Pimma,CR,Not endemic
+b215,Halpe egena egena,Halpe egena,Hesperiidae,Rare Ace,Dulabasiya,EN,Endemic subspecies
+b216,Halpe [egena] ceylonica,Halpe ceylonica,Hesperiidae,Ceylon Ace,Lanka-siya,EN,Endemic subspecies
+b217,Hasora badra lanka,Hasora badra,Hesperiidae,Ceylon Awl / Common Awl,Hela Leesa,EN,Endemic subspecies
+b218,Hasora chromus chromus,Hasora chromus,Hesperiidae,Common Banded Awl,Iri-leesa,LC,Not endemic
+b219,Hasora taminatus taminatus,Hasora taminatus,Hesperiidae,White-banded Awl,Sudu iri-leesa,NT,Not endemic
+b220,Hyarotis adrastus adrastus,Hyarotis adrastus,Hesperiidae,Tree Flitter,Ruk-sariya,LC,Not endemic
+b221,Iambrix salsala luteipalpis,Iambrix salsala,Hesperiidae,Chestnut Bob,Guru Bobaya,LC,Not endemic
+b222,Matapa aria,Matapa aria,Hesperiidae,Common Redeye,Rathasiya,VU,Not endemic
+b223,Notocrypta curvifascia curvifascia,Notocrypta curvifascia,Hesperiidae,Restricted Demon,Nethu Dassa,VU,Not endemic
+b224,Notocrypta paralysos alysia,Notocrypta paralysos,Hesperiidae,Common Banded Demon,Iri Dassa,VU,Endemic subspecies
+b225,Oriens goloides,Oriens goloides,Hesperiidae,Common Dartlet,Sariththa,NT,Not endemic
+b226,Parnara bada bada,Parnara bada,Hesperiidae,Smallest Swift,Tikiri sariya,NT,Not endemic
+b227,Pelopidas agna agna,Pelopidas agna,Hesperiidae,Little Branded Swift,Podi Iri-sariya,NT,Not endemic
+b228,Pelopidas conjuncta narooa,Pelopidas conjuncta,Hesperiidae,Conjoined Swift,Winanga sariya,VU,Not endemic
+b229,Pelopidas mathias mathias,Pelopidas mathias,Hesperiidae,Small Branded Swift,Thudu Iri-sariya,NT,Not endemic
+b230,Pelopidas subochracea subochracea,Pelopidas subochracea,Hesperiidae,Large Branded Swift,Maha Iri-sariya,VU,Not endemic
+b231,Potanthus pallida,Potanthus pallida,Hesperiidae,Indian Dart/Pallid Dart,Indu-sara,DD,Not endemic
+b232,Potanthus pseudomaesa pseudomaesa,Potanthus pseudomaesa,Hesperiidae,Common Dart,Hela-sara,VU,Not endemic
+b233,Potanthus satra,Potanthus confuscius,Hesperiidae,Tropic Dart,Gim-sara,LC,Possibly endemic
+b234,Sarangesa dasahara albicilia,Sarangesa dasahara,Hesperiidae,Common Small Flat,Kuda Kunchika,NT,Endemic subspecies
+b235,Spialia galba,Spialia galba,Hesperiidae,Indian Skipper,Indu-pimma,LC,Not endemic
+b236,Suastus gremius subgrisea,Suastus gremius,Hesperiidae,Indian Palm Bob,Indu-thala Bobaya,LC,Endemic subspecies
+b237,Suastus minuta minuta,Suastus minuta,Hesperiidae,Ceylon Palm Bob,Hela-thala Bobaya,EN,Endemic subspecies
+b238,Tagiades japetus obscurus,Tagiades japetus,Hesperiidae,Ceylon Snow Flat,Hima Kunchika,LC,Not endemic
+b239,Tagiades litigiosa ceylonica,Tagiades litigiosa,Hesperiidae,Water Snow Flat,Diya Kunchika,VU,Endemic subspecies
+b240,Tapena thwaitesi,Tapena thwaitesi,Hesperiidae,Black Angle,Kalu Mulla,EN,Not endemic
+b241,Taractrocera maevius,Taractrocera maevius,Hesperiidae,Common Grass Dart,Thana-sara,LC,Not endemic
+b242,Telicota bambusae lanka,Telicota bambusae,Hesperiidae,Dark Palmdart,Anduru Thala-sara,VU,Endemic subspecies
+b243,Telicota colon kala,Telicota colon,Hesperiidae,Pale Palmdart,Thala-sara,NT,Not endemic
+b244,Thoressa decorata,Thoressa decorata,Hesperiidae,Sri Lankan Decorated Ace,Sri Lanka Sithirasiya,EN,Endemic
+b245,Udaspes folus,Udaspes folus,Hesperiidae,Grass Demon,Thanapath Dassa,LC,Not endemic
