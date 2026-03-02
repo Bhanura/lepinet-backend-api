@@ -13,19 +13,26 @@ jobs:
           fetch-depth: 0
           lfs: true
           
-      # Python සකස් කිරීම (මෙය එකතු කළා)
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
           
-      # CLI එක නිවැරදිව Install කිරීම
-      - name: Install Hugging Face CLI
-        run: pip install -U "huggingface_hub[cli]"
+      - name: Install Hugging Face Hub Library
+        run: pip install huggingface_hub
         
-      # Model එක සහ කේතය Upload කිරීම
-      - name: Push to Hugging Face via CLI
+      - name: Push to Hugging Face via Pure Python
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          huggingface-cli upload bhanura/lepinet-backend . . --repo-type=space --token=$HF_TOKEN
+          python -c "
+          import os
+          from huggingface_hub import HfApi
+          api = HfApi(token=os.environ['HF_TOKEN'])
+          api.upload_folder(
+              folder_path='.',
+              repo_id='bhanura/lepinet-backend',
+              repo_type='space',
+              ignore_patterns=['.git/*', '.github/*']
+          )
+          "
