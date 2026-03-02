@@ -12,13 +12,13 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
-      - name: Push to Hugging Face
+          
+      - name: Install Hugging Face CLI
+        run: pip install huggingface_hub
+        
+      - name: Push to Hugging Face via CLI
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git config --global credential.helper store
-          echo "https://user:$HF_TOKEN@huggingface.co" > ~/.git-credentials
-          
-          # ඔබේ Hugging Face Username එක මෙතනට දමන්න (bhanura වෙනුවට)
-          git remote add space https://huggingface.co/spaces/bhanura/lepinet-backend
-          git push --force space main
+          # Git Push වෙනුවට HF CLI භාවිතා කිරීමෙන් LFS errors මඟහැරේ
+          huggingface-cli upload bhanura/lepinet-backend . / --repo-type=space --token=$HF_TOKEN
