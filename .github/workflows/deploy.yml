@@ -13,12 +13,19 @@ jobs:
           fetch-depth: 0
           lfs: true
           
+      # Python සකස් කිරීම (මෙය එකතු කළා)
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          
+      # CLI එක නිවැරදිව Install කිරීම
       - name: Install Hugging Face CLI
-        run: pip install huggingface_hub
+        run: pip install -U "huggingface_hub[cli]"
         
+      # Model එක සහ කේතය Upload කිරීම
       - name: Push to Hugging Face via CLI
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          # Git Push වෙනුවට HF CLI භාවිතා කිරීමෙන් LFS errors මඟහැරේ
-          huggingface-cli upload bhanura/lepinet-backend . / --repo-type=space --token=$HF_TOKEN
+          huggingface-cli upload bhanura/lepinet-backend . . --repo-type=space --token=$HF_TOKEN
