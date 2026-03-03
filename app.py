@@ -118,7 +118,7 @@ class OnlineButterflyDataset(Dataset):
 # --- 7. CONTINUOUS TRAINING LOGIC ---
 def run_fine_tuning_task(params: TrainParams):
     global model
-    temp_dir = tempfile.mkdtemp() # තාවකාලික ෆෝල්ඩරයක් සෑදීම
+    temp_dir = tempfile.mkdtemp()
     
     try:
         print(f"--- Training Started with Config: {params.dict()} ---")
@@ -131,14 +131,12 @@ def run_fine_tuning_task(params: TrainParams):
 
         image_paths, labels = [], []
         
-        # 1. පින්තූර Download කිරීම
         for i, rec in enumerate(records):
             try:
                 img_data = requests.get(rec['image_url']).content
                 img_path = os.path.join(temp_dir, f"img_{i}.jpg")
                 with open(img_path, 'wb') as f: f.write(img_data)
                 
-                # Species ID එක (b001) ආපසු model index එකට (0-244) හැරවීම
                 class_idx = id_to_idx.get(rec['final_species_id'])
                 if class_idx is not None:
                     image_paths.append(img_path)
@@ -148,7 +146,6 @@ def run_fine_tuning_task(params: TrainParams):
 
         if len(image_paths) == 0: raise Exception("No valid images downloaded.")
 
-        # 2. PyTorch Training Setup
         dataset = OnlineButterflyDataset(image_paths, labels, transform=train_transform)
         dataloader = DataLoader(dataset, batch_size=params.batch_size, shuffle=True)
         
@@ -156,7 +153,6 @@ def run_fine_tuning_task(params: TrainParams):
         optimizer = optim.Adam(model.parameters(), lr=params.learning_rate)
         model.train()
 
-        # 3. Training Loop
         for epoch in range(params.epochs):
             running_loss = 0.0
             for inputs, targets in dataloader:
@@ -168,7 +164,6 @@ def run_fine_tuning_task(params: TrainParams):
                 running_loss += loss.item()
             print(f"Epoch {epoch+1}/{params.epochs} - Loss: {running_loss/len(dataloader):.4f}")
 
-        # 4. Evaluation (Training set එකෙන්ම accuracy බැලීම - දත්ත අඩු නිසා)
         model.eval()
         all_preds, all_labels = [], []
         eval_loader = DataLoader(dataset, batch_size=params.batch_size, shuffle=False)
@@ -182,7 +177,6 @@ def run_fine_tuning_task(params: TrainParams):
         acc = round(accuracy_score(all_labels, all_preds) * 100, 2)
         f1 = round(f1_score(all_labels, all_preds, average='weighted', zero_division=0), 4)
 
-        # 5. Confusion Matrix සෑදීම සහ Upload කිරීම
         cm = confusion_matrix(all_labels, all_preds)
         plt.figure(figsize=(10, 8))
         sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
@@ -199,7 +193,6 @@ def run_fine_tuning_task(params: TrainParams):
         supabase.storage.from_('eval_plots').upload(file=img_buf.read(), path=plot_filename, file_options={"content-type": "image/png"})
         plot_url = f"{SUPABASE_URL}/storage/v1/object/public/eval_plots/{plot_filename}"
 
-        # 6. අලුත් Model එක Save කර Hugging Face එකට Upload කිරීම
         new_version = f"v1.{datetime.datetime.now().strftime('%m%d%H')}"
         torch.save(model.state_dict(), MODEL_PATH)
         
@@ -212,10 +205,30 @@ def run_fine_tuning_task(params: TrainParams):
             commit_message=f"Auto-update model to {new_version}"
         )
 
-        # 7. Database යාවත්කාලීන කිරීම
+        # -------------------------------------------------------------
+        # 7. Database යාවත්කාලීන කිරීම (අලුත්ම සහ නිවැරදි Order එක)
+        # -------------------------------------------------------------
+        
+        # A. ai_logs වල status එක 'trained' කිරීම
         record_ids = [rec['id'] for rec in records]
         supabase.table('ai_logs').update({'training_status': 'trained'}).in_('id', record_ids).execute()
         
+        # B. දැනට Active තියෙන පරණ Model Versions ඔක්කොම Inactive කිරීම
+        try:
+            supabase.table('model_versions').update({'is_active': False}).eq('is_active', True).execute()
+        except Exception:
+            pass # මුල්ම පාර Train වෙද්දී Active ඒවා නැති නිසා error එකක් ආවොත් මඟහැරීමට
+            
+        # C. අලුත් Model Version එක model_versions table එකට ඇතුළත් කිරීම (මේක මුලින්ම කළ යුතුයි FK නිසා)
+        supabase.table('model_versions').insert({
+            'version_name': new_version,
+            'file_path': MODEL_PATH,
+            'training_image_count': len(image_paths),
+            'accuracy_score': acc,
+            'is_active': True
+        }).execute()
+
+        # D. අලුත් Evaluation එක model_evaluations table එකට ඇතුළත් කිරීම
         supabase.table('model_evaluations').insert({
             'model_version': new_version,
             'accuracy': acc,
@@ -228,7 +241,6 @@ def run_fine_tuning_task(params: TrainParams):
     except Exception as e:
         print(f"Training Task Failed: {e}")
     finally:
-        # තාවකාලික පින්තූර මකා දැමීම (Memory Leak වැළැක්වීමට)
         import shutil
         shutil.rmtree(temp_dir, ignore_errors=True)
 
