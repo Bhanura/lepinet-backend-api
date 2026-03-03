@@ -12,6 +12,7 @@ import os
 import tempfile
 import requests
 from torchvision import transforms
+import json
 import pandas as pd
 import numpy as np
 from sklearn.metrics import confusion_matrix, accuracy_score, f1_score
@@ -19,16 +20,16 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from supabase import create_client, Client
 from huggingface_hub import HfApi
-import uuid
 import datetime
 
 app = FastAPI()
 
 # --- 1. CONFIGURATIONS & SECRETS ---
 NUM_CLASSES = 245
-MODEL_PATH = "butterfly_model_v1.pth" 
+CURRENT_MODEL_PATH = "butterfly_model_v1.pth" # දැනට Active එක (ආරම්භයේදී)
+MAPPING_PATH = "species_mapping.json"
 CSV_PATH = "sri_lanka_butterflies_245.csv"
-REPO_ID = "bhanura/lepinet-backend" # ඔබේ HF Space නම
+REPO_ID = "bhanura/lepinet-backend" 
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
@@ -39,20 +40,36 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY) if SUPABASE_URL and
 
 # --- 2. LOAD DATA & MODEL ---
 def load_model_and_data():
-    global model, idx_to_info, id_to_idx, df
+    global model, idx_to_info, id_to_idx
     try:
+        # JSON Mapping එක කියවීම (නව ක්‍රමය)
+        with open(MAPPING_PATH, 'r') as f:
+            id_to_idx = json.load(f)
+            
+        # CSV එකෙන් නම් ටික පමණක් ගැනීම (UI එකට යවන්න)
         df = pd.read_csv(CSV_PATH)
-        idx_to_info = {i: {'id': row['butterfly_id'], 'name': row['common_name_english']} for i, row in df.iterrows()}
-        id_to_idx = {row['butterfly_id']: i for i, row in df.iterrows()} # Reverse mapping for training
+        idx_to_info = {}
+        for _, row in df.iterrows():
+            b_id = row['butterfly_id']
+            if b_id in id_to_idx:
+                idx_to_info[id_to_idx[b_id]] = {'id': b_id, 'name': row['common_name_english']}
 
-        device = torch.device("cpu") # HF Free tier
+        # දැනට Active Model එක Database එකෙන් සොයා ගැනීම
+        active_model_file = CURRENT_MODEL_PATH
+        if supabase:
+            res = supabase.table('model_versions').select('file_path').eq('is_active', True).execute()
+            if res.data and len(res.data) > 0:
+                active_model_file = res.data[0]['file_path']
+                
+        # Model එක Load කිරීම
+        device = torch.device("cpu") 
         loaded_model = timm.create_model('mobilenetv4_conv_small.e2400_r224_in1k', pretrained=False, num_classes=NUM_CLASSES)
-        loaded_model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
+        loaded_model.load_state_dict(torch.load(active_model_file, map_location=device))
         loaded_model.eval()
-        print("Model loaded successfully!")
+        print(f"Model ({active_model_file}) loaded successfully!")
         return loaded_model
     except Exception as e:
-        print(f"Warning: Model or CSV failed to load. Error: {e}")
+        print(f"Warning: Model or Mapping failed to load. Error: {e}")
         return None
 
 model = load_model_and_data()
@@ -100,10 +117,9 @@ async def predict(file: UploadFile = File(...)):
 # --- 5. TRAINING HYPERPARAMS MODEL ---
 class TrainParams(BaseModel):
     epochs: int = 5
-    learning_rate: float = 0.001
+    learning_rate: float = 0.0001 # Catastrophic Forgetting වලක්වන්න අගය අඩු කළා
     batch_size: int = 16
 
-# --- 6. PYTORCH DATASET ---
 class OnlineButterflyDataset(Dataset):
     def __init__(self, image_paths, labels, transform=None):
         self.image_paths = image_paths
@@ -115,7 +131,7 @@ class OnlineButterflyDataset(Dataset):
         if self.transform: img = self.transform(img)
         return img, self.labels[idx]
 
-# --- 7. CONTINUOUS TRAINING LOGIC ---
+# --- 6. CONTINUOUS TRAINING LOGIC (Catastrophic Forgetting Prevention) ---
 def run_fine_tuning_task(params: TrainParams):
     global model
     temp_dir = tempfile.mkdtemp()
@@ -125,44 +141,52 @@ def run_fine_tuning_task(params: TrainParams):
         response = supabase.table('ai_logs').select('id, image_url, final_species_id').eq('training_status', 'ready').execute()
         records = response.data
 
-        if not records:
-            print("No records found for training.")
-            return
+        if not records: return
 
         image_paths, labels = [], []
-        
         for i, rec in enumerate(records):
             try:
                 img_data = requests.get(rec['image_url']).content
                 img_path = os.path.join(temp_dir, f"img_{i}.jpg")
                 with open(img_path, 'wb') as f: f.write(img_data)
                 
-                class_idx = id_to_idx.get(rec['final_species_id'])
+                class_idx = id_to_idx.get(rec['final_species_id']) # JSON එකෙන් අංකය ගැනීම
                 if class_idx is not None:
                     image_paths.append(img_path)
                     labels.append(class_idx)
             except Exception as e:
-                print(f"Failed to download image {rec['image_url']}: {e}")
+                pass
 
         if len(image_paths) == 0: raise Exception("No valid images downloaded.")
 
         dataset = OnlineButterflyDataset(image_paths, labels, transform=train_transform)
         dataloader = DataLoader(dataset, batch_size=params.batch_size, shuffle=True)
         
+        # --- CATASTROPHIC FORGETTING PREVENTION (Layer Freezing) ---
+        # මුල් ස්තර (Features) වෙනස් වීම නවත්වා අවසන් Classifier එක පමණක් ඉගෙනගැනීමට ඉඩදීම
+        for param in model.parameters():
+            param.requires_grad = False
+        
+        # MobileNetV4 හි අවසන් Classifier layer එක පමණක් Train වීමට ඇරීම
+        if hasattr(model, 'classifier'):
+            for param in model.classifier.parameters():
+                param.requires_grad = True
+        elif hasattr(model, 'head'):
+            for param in model.head.parameters():
+                param.requires_grad = True
+
+        # Train වෙන්න දාපු layers ටික විතරක් Optimizer එකට දීම
+        optimizer = optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=params.learning_rate)
         criterion = nn.CrossEntropyLoss()
-        optimizer = optim.Adam(model.parameters(), lr=params.learning_rate)
         model.train()
 
         for epoch in range(params.epochs):
-            running_loss = 0.0
             for inputs, targets in dataloader:
                 optimizer.zero_grad()
                 outputs = model(inputs)
                 loss = criterion(outputs, targets)
                 loss.backward()
                 optimizer.step()
-                running_loss += loss.item()
-            print(f"Epoch {epoch+1}/{params.epochs} - Loss: {running_loss/len(dataloader):.4f}")
 
         model.eval()
         all_preds, all_labels = [], []
@@ -177,13 +201,10 @@ def run_fine_tuning_task(params: TrainParams):
         acc = round(accuracy_score(all_labels, all_preds) * 100, 2)
         f1 = round(f1_score(all_labels, all_preds, average='weighted', zero_division=0), 4)
 
+        # CM Plot
         cm = confusion_matrix(all_labels, all_preds)
         plt.figure(figsize=(10, 8))
         sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
-        plt.title(f'Evaluation Config: Ep:{params.epochs}, LR:{params.learning_rate}')
-        plt.ylabel('Actual')
-        plt.xlabel('Predicted')
-        
         img_buf = io.BytesIO()
         plt.savefig(img_buf, format='png', bbox_inches='tight')
         img_buf.seek(0)
@@ -193,42 +214,37 @@ def run_fine_tuning_task(params: TrainParams):
         supabase.storage.from_('eval_plots').upload(file=img_buf.read(), path=plot_filename, file_options={"content-type": "image/png"})
         plot_url = f"{SUPABASE_URL}/storage/v1/object/public/eval_plots/{plot_filename}"
 
-        new_version = f"v1.{datetime.datetime.now().strftime('%m%d%H')}"
-        torch.save(model.state_dict(), MODEL_PATH)
+        # --- EXPLICIT VERSIONING: අලුත් නමකින් Model එක Save කිරීම ---
+        new_version = f"v1.{datetime.datetime.now().strftime('%m%d%H%M')}"
+        new_model_filename = f"butterfly_model_{new_version}.pth" # වෙනම ෆයිල් එකක් හැදේ
+        
+        torch.save(model.state_dict(), new_model_filename)
         
         api = HfApi(token=HF_TOKEN)
         api.upload_file(
-            path_or_fileobj=MODEL_PATH,
-            path_in_repo=MODEL_PATH,
+            path_or_fileobj=new_model_filename,
+            path_in_repo=new_model_filename,
             repo_id=REPO_ID,
             repo_type="space",
-            commit_message=f"Auto-update model to {new_version}"
+            commit_message=f"Added new model version {new_version}"
         )
 
-        # -------------------------------------------------------------
-        # 7. Database යාවත්කාලීන කිරීම (අලුත්ම සහ නිවැරදි Order එක)
-        # -------------------------------------------------------------
-        
-        # A. ai_logs වල status එක 'trained' කිරීම
+        # DB Updates
         record_ids = [rec['id'] for rec in records]
         supabase.table('ai_logs').update({'training_status': 'trained'}).in_('id', record_ids).execute()
         
-        # B. දැනට Active තියෙන පරණ Model Versions ඔක්කොම Inactive කිරීම
         try:
             supabase.table('model_versions').update({'is_active': False}).eq('is_active', True).execute()
-        except Exception:
-            pass # මුල්ම පාර Train වෙද්දී Active ඒවා නැති නිසා error එකක් ආවොත් මඟහැරීමට
+        except: pass
             
-        # C. අලුත් Model Version එක model_versions table එකට ඇතුළත් කිරීම (මේක මුලින්ම කළ යුතුයි FK නිසා)
         supabase.table('model_versions').insert({
             'version_name': new_version,
-            'file_path': MODEL_PATH,
+            'file_path': new_model_filename, # අලුත් ෆයිල් නම DB එකට යයි
             'training_image_count': len(image_paths),
             'accuracy_score': acc,
             'is_active': True
         }).execute()
 
-        # D. අලුත් Evaluation එක model_evaluations table එකට ඇතුළත් කිරීම
         supabase.table('model_evaluations').insert({
             'model_version': new_version,
             'accuracy': acc,
@@ -236,7 +252,7 @@ def run_fine_tuning_task(params: TrainParams):
             'confusion_matrix_url': plot_url
         }).execute()
 
-        print(f"--- Training Complete! Version: {new_version}, Acc: {acc}% ---")
+        print(f"--- Training Complete! Version: {new_version} saved as {new_model_filename} ---")
 
     except Exception as e:
         print(f"Training Task Failed: {e}")
@@ -244,13 +260,9 @@ def run_fine_tuning_task(params: TrainParams):
         import shutil
         shutil.rmtree(temp_dir, ignore_errors=True)
 
-# --- 8. TRIGGER ENDPOINT ---
 @app.post("/trigger-training")
 async def trigger_training(params: TrainParams, background_tasks: BackgroundTasks, authorization: str = Header(None)):
     if authorization != f"Bearer {ADMIN_SECRET}":
         raise HTTPException(status_code=401, detail="Unauthorized")
     background_tasks.add_task(run_fine_tuning_task, params)
-    return {
-        "message": "Fine-tuning started successfully.",
-        "config": params.dict()
-    }
+    return {"message": "Fine-tuning started", "config": params.dict()}
