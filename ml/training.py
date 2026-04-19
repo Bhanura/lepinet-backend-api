@@ -11,8 +11,9 @@ from PIL import Image
 from sklearn.metrics import confusion_matrix, accuracy_score, f1_score
 import matplotlib.pyplot as plt
 import seaborn as sns
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from huggingface_hub import HfApi
+from sklearn.model_selection import train_test_split
 
 from config import supabase, SUPABASE_URL, REPO_ID, HF_TOKEN
 import ml.model as ml_state  # Import global states safely
@@ -21,6 +22,7 @@ class TrainParams(BaseModel):
     epochs: int = 5
     learning_rate: float = 0.0001
     batch_size: int = 16
+    test_size: float = Field(0.2, ge=0.05, le=0.5)
 
 class OnlineButterflyDataset(Dataset):
     def __init__(self, image_paths, labels, transform=None):
@@ -58,10 +60,18 @@ def run_fine_tuning_task(params: TrainParams):
                     labels.append(class_idx)
             except Exception: pass
 
-        if len(image_paths) == 0: raise Exception("No valid images downloaded.")
+        if len(image_paths) < 10: raise Exception("Not enough valid images to perform a train/val split. Minimum 10 required.")
 
-        dataset = OnlineButterflyDataset(image_paths, labels, transform=ml_state.train_transform)
-        dataloader = DataLoader(dataset, batch_size=params.batch_size, shuffle=True)
+        # Split data into training and validation sets
+        train_paths, val_paths, train_labels, val_labels = train_test_split(
+            image_paths, labels, test_size=params.test_size, random_state=42, stratify=labels
+        )
+
+        train_dataset = OnlineButterflyDataset(train_paths, train_labels, transform=ml_state.train_transform)
+        train_loader = DataLoader(train_dataset, batch_size=params.batch_size, shuffle=True)
+
+        val_dataset = OnlineButterflyDataset(val_paths, val_labels, transform=ml_state.val_transform)
+        eval_loader = DataLoader(val_dataset, batch_size=params.batch_size, shuffle=False)
         
         # Freezing layers
         for param in model.parameters():
@@ -77,7 +87,7 @@ def run_fine_tuning_task(params: TrainParams):
         model.train()
 
         for epoch in range(params.epochs):
-            for inputs, targets in dataloader:
+            for inputs, targets in train_loader:
                 optimizer.zero_grad()
                 outputs = model(inputs)
                 loss = criterion(outputs, targets)
@@ -86,7 +96,6 @@ def run_fine_tuning_task(params: TrainParams):
 
         model.eval()
         all_preds, all_labels = [], []
-        eval_loader = DataLoader(dataset, batch_size=params.batch_size, shuffle=False)
         with torch.no_grad():
             for inputs, targets in eval_loader:
                 outputs = model(inputs)
