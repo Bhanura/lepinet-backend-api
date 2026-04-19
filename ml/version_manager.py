@@ -27,16 +27,25 @@ def switch_active_model(version_name: str, file_path: str):
 
     # 2. මොඩලය මතකය (memory) වෙත ஏற்றிக்கொள்ளுதல் (load)
     # ml_state.model_instance හි ව්‍යුහය (architecture) නොවෙනස්ව පවතින බව උපකල්පනය කෙරේ
-    ml_state.model_instance.load_state_dict(torch.load(model_path))
-    ml_state.model_instance.eval() # Set to evaluation mode
-    print(f"--- Model {version_name} loaded into memory successfully ---")
+    try:
+        ml_state.model_instance.load_state_dict(torch.load(model_path))
+        ml_state.model_instance.eval() # Set to evaluation mode
+        print(f"--- Model {version_name} loaded into memory successfully ---")
+    except Exception as e:
+        raise Exception(f"Failed to load model state dict: {e}")
 
     # 3. දත්ත සමුදාය යාවත්කාලීන කිරීම
     # පළමුව, දැනට active ඇති සියලුම මොඩල inactive කිරීම
-    supabase.table('model_versions').update({'is_active': False}).eq('is_active', True).execute()
+    try:
+        supabase.table('model_versions').update({'is_active': False}).eq('is_active', True).execute()
+    except Exception as e:
+        raise Exception(f"Failed to deactivate current active models in database: {e}")
     
     # ඉන්පසු, ඉලක්කගත මොඩලය active කිරීම
-    response = supabase.table('model_versions').update({'is_active': True}).eq('version_name', version_name).execute()
+    try:
+        response = supabase.table('model_versions').update({'is_active': True}).eq('version_name', version_name).execute()
+    except Exception as e:
+        raise Exception(f"Failed to activate new model '{version_name}' in database: {e}")
     
     if not response.data:
         raise Exception("Failed to update model status in the database.")
