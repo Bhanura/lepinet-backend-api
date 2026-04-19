@@ -49,7 +49,8 @@ def delete_model_version(version_name: str, file_path: str):
     """
     Permanently delete a model version.
     1. Delete the model file from the Hugging Face repository.
-    2. Delete the corresponding records from the database.
+    2. Delete the evaluation plot from Supabase Storage.
+    3. Delete the corresponding records from the database.
     """
     print(f"--- Deleting model version: {version_name} ---")
     api = HfApi(token=HF_TOKEN)
@@ -64,14 +65,25 @@ def delete_model_version(version_name: str, file_path: str):
         )
         print(f"--- Deleted {file_path} from Hugging Face repository. ---")
     except Exception as e:
-        # ගොනුව දැනටමත් HF හි නොමැති නම්, එය දෝෂයක් ලෙස නොසලකා ඉදිරියට යමු
         print(f"Could not delete file from Hugging Face (it may already be gone): {e}")
 
-    # 2. දත්ත සමුදායෙන් අදාළ වාර්තා මකා දැමීම
-    # අදාළ evaluation record එක මකා දැමීම
+    # 2. Supabase Storage වෙතින් Confusion Matrix රූපය මකා දැමීම
+    try:
+        eval_response = supabase.table('model_evaluations').select('confusion_matrix_url').eq('model_version', version_name).single().execute()
+        
+        if eval_response.data and eval_response.data.get('confusion_matrix_url'):
+            url = eval_response.data['confusion_matrix_url']
+            plot_filename = url.split('/')[-1]
+            
+            if plot_filename:
+                supabase.storage.from_('eval_plots').remove([plot_filename])
+                print(f"--- Deleted plot {plot_filename} from Supabase Storage. ---")
+
+    except Exception as e:
+        print(f"Could not delete plot from Supabase Storage (it may not exist): {e}")
+
+    # 3. දත්ත සමුදායෙන් අදාළ වාර්තා මකා දැමීම
     supabase.table('model_evaluations').delete().eq('model_version', version_name).execute()
-    
-    # අදාළ version record එක මකා දැමීම
     response = supabase.table('model_versions').delete().eq('version_name', version_name).execute()
     
     if not response.data:
