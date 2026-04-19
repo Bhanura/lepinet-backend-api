@@ -1,12 +1,14 @@
 import io
 import torch
-from fastapi import APIRouter, File, UploadFile, Header, HTTPException, BackgroundTasks
+from fastapi import APIRouter, File, UploadFile, Header, HTTPException, BackgroundTasks, Body
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 from PIL import Image
 
 from config import ADMIN_SECRET
 import ml.model as ml_state
 from ml.training import run_fine_tuning_task, TrainParams
+from ml.version_manager import switch_active_model, delete_model_version
 
 router = APIRouter()
 
@@ -39,3 +41,37 @@ async def trigger_training(params: TrainParams, background_tasks: BackgroundTask
         raise HTTPException(status_code=401, detail="Unauthorized")
     background_tasks.add_task(run_fine_tuning_task, params)
     return {"message": "Fine-tuning started successfully.", "config": params.dict()}
+
+@router.post("/set-active-model")
+async def set_active_model(
+    authorization: str = Header(None),
+    version_name: str = Body(..., embed=True),
+    file_path: str = Body(..., embed=True)
+):
+    if authorization != f"Bearer {ADMIN_SECRET}":
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    
+    try:
+        result = switch_active_model(version_name, file_path)
+        return JSONResponse(status_code=200, content=result)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
+
+@router.delete("/delete-model")
+async def delete_model(
+    authorization: str = Header(None),
+    version_name: str = Body(..., embed=True),
+    file_path: str = Body(..., embed=True)
+):
+    if authorization != f"Bearer {ADMIN_SECRET}":
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    
+    active_model_check = supabase.table('model_versions').select('is_active').eq('version_name', version_name).single().execute()
+    if active_model_check.data and active_model_check.data['is_active']:
+        raise HTTPException(status_code=400, detail="Cannot delete the currently active model. Please switch to another model first.")
+
+    try:
+        result = delete_model_version(version_name, file_path)
+        return JSONResponse(status_code=200, content=result)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
