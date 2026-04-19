@@ -28,7 +28,7 @@ def switch_active_model(version_name: str, file_path: str):
     # 2. මොඩලය මතකය (memory) වෙත ஏற்றிக்கொள்ளுதல் (load)
     # ml_state.model_instance හි ව්‍යුහය (architecture) නොවෙනස්ව පවතින බව උපකල්පනය කෙරේ
     try:
-        ml_state.model_instance.load_state_dict(torch.load(model_path))
+        ml_state.model_instance.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
         ml_state.model_instance.eval() # Set to evaluation mode
         print(f"--- Model {version_name} loaded into memory successfully ---")
     except Exception as e:
