@@ -9,6 +9,9 @@ from config import ADMIN_SECRET
 import ml.model as ml_state
 from ml.training import run_fine_tuning_task, TrainParams
 from ml.version_manager import switch_active_model, delete_model_version
+from lib.supabase import create_supabase_client
+
+supabase = create_supabase_client()
 
 router = APIRouter()
 
