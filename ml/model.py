@@ -5,6 +5,7 @@ from torchvision import transforms, models
 import pandas as pd
 from config import NUM_CLASSES, CURRENT_MODEL_PATH, MAPPING_PATH, CSV_PATH, supabase
 import json
+import timm
 
 # Global State Variables (වෙනත් ෆයිල් වලට පාවිච්චි කිරීමට)
 model_instance = None
@@ -82,15 +83,11 @@ def load_model(model_path=None):
 
     if model_path and os.path.exists(model_path):
         print(f"Loading model from {model_path}")
-        model = models.efficientnet_b0(weights=None)
-        num_ftrs = model.classifier[1].in_features
-        model.classifier[1] = nn.Linear(num_ftrs, NUM_CLASSES)
+        model = timm.create_model('mobilenetv4_conv_small.e2400_r224_in1k', pretrained=False, num_classes=NUM_CLASSES)
         model.load_state_dict(torch.load(model_path, map_location=device))
     else:
         print("Model path not found or not provided. Loading default model.")
-        model = models.efficientnet_b0(weights=None)
-        num_ftrs = model.classifier[1].in_features
-        model.classifier[1] = nn.Linear(num_ftrs, NUM_CLASSES)
+        model = timm.create_model('mobilenetv4_conv_small.e2400_r224_in1k', pretrained=False, num_classes=NUM_CLASSES)
         model.load_state_dict(torch.load(DEFAULT_MODEL_PATH, map_location=device))
 
     model.to(device)
