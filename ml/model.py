@@ -66,7 +66,7 @@ def load_model(model_path=None):
     """
     Load a model from a file path or use the default model.
     """
-    global model_instance, idx_to_info, id_to_idx, transform
+    global model_instance, idx_to_info, id_to_idx, transform, device
     
     # Load species mapping
     with open('species_mapping.json', 'r') as f:
