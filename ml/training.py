@@ -45,7 +45,9 @@ def run_fine_tuning_task(params: TrainParams):
         response = supabase.table('ai_logs').select('id, image_url, final_species_id').eq('training_status', 'ready').execute()
         records = response.data
 
-        if not records: return
+        if not records:
+            print("No new data to train on. Exiting task.")
+            return
 
         image_paths, labels = [], []
         for i, rec in enumerate(records):
@@ -58,9 +60,13 @@ def run_fine_tuning_task(params: TrainParams):
                 if class_idx is not None:
                     image_paths.append(img_path)
                     labels.append(class_idx)
-            except Exception: pass
+            except Exception as e:
+                print(f"Skipping record {rec.get('id', 'N/A')} due to error: {e}")
 
-        if len(image_paths) < 10: raise Exception("Not enough valid images to perform a train/val split. Minimum 10 required.")
+
+        if len(image_paths) < 10:
+            print(f"Not enough valid images to train. Found {len(image_paths)}, but require at least 10.")
+            raise Exception("Not enough valid images to perform a train/val split. Minimum 10 required.")
 
         # Split data into training and validation sets
         train_paths, val_paths, train_labels, val_labels = train_test_split(
@@ -87,67 +93,83 @@ def run_fine_tuning_task(params: TrainParams):
         model.train()
 
         for epoch in range(params.epochs):
-            for inputs, targets in train_loader:
+            running_loss = 0.0
+            for i, (inputs, targets) in enumerate(train_loader):
                 optimizer.zero_grad()
                 outputs = model(inputs)
                 loss = criterion(outputs, targets)
                 loss.backward()
                 optimizer.step()
+                running_loss += loss.item()
+            print(f"Epoch {epoch+1}/{params.epochs}, Loss: {running_loss/len(train_loader):.4f}")
 
         model.eval()
         all_preds, all_labels = [], []
         with torch.no_grad():
             for inputs, targets in eval_loader:
                 outputs = model(inputs)
-                _, preds = torch.max(outputs, 1)
-                all_preds.extend(preds.numpy())
-                all_labels.extend(targets.numpy())
+                _, predicted = torch.max(outputs, 1)
+                all_preds.extend(predicted.cpu().numpy())
+                all_labels.extend(targets.cpu().numpy())
 
-        acc = round(accuracy_score(all_labels, all_preds) * 100, 2)
-        f1 = round(f1_score(all_labels, all_preds, average='weighted', zero_division=0), 4)
+        # --- Metrics & Reporting ---
+        accuracy = accuracy_score(all_labels, all_preds)
+        f1 = f1_score(all_labels, all_preds, average='weighted')
+        print(f"Validation Accuracy: {accuracy:.4f}, F1 Score: {f1:.4f}")
 
-        # Plot
+        # Confusion Matrix
         cm = confusion_matrix(all_labels, all_preds)
-        plt.figure(figsize=(10, 8))
+        plt.figure(figsize=(12, 10))
         sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
-        img_buf = io.BytesIO()
-        plt.savefig(img_buf, format='png', bbox_inches='tight')
-        img_buf.seek(0)
-        plt.close()
-
-        plot_filename = f"eval_plot_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.png"
-        supabase.storage.from_('eval_plots').upload(file=img_buf.read(), path=plot_filename, file_options={"content-type": "image/png"})
-        plot_url = f"{SUPABASE_URL}/storage/v1/object/public/eval_plots/{plot_filename}"
-
-        # Upload & Save
-        new_version = f"v1.{datetime.datetime.now().strftime('%m%d%H%M')}"
-        new_model_filename = f"butterfly_model_{new_version}.pth"
+        plt.xlabel('Predicted')
+        plt.ylabel('True')
+        plt.title('Confusion Matrix')
         
-        torch.save(model.state_dict(), new_model_filename)
+        buf = io.BytesIO()
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        
+        # --- Model Versioning and Upload ---
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        version_name = f"v{timestamp}"
+        model_path = os.path.join(temp_dir, f"{version_name}.pth")
+        torch.save(model.state_dict(), model_path)
+
         api = HfApi(token=HF_TOKEN)
-        api.upload_file(
-            path_or_fileobj=new_model_filename, path_in_repo=new_model_filename,
-            repo_id=REPO_ID, repo_type="space", commit_message=f"Added new model version {new_version}"
-        )
+        repo_model_path = f"models/{version_name}.pth"
+        api.upload_file(path_or_fileobj=model_path, path_in_repo=repo_model_path, repo_id=REPO_ID, repo_type="space")
+        
+        # Upload confusion matrix
+        cm_path_in_repo = f"metrics/{version_name}_confusion_matrix.png"
+        api.upload_file(path_or_fileobj=buf, path_in_repo=cm_path_in_repo, repo_id=REPO_ID, repo_type="space")
+        buf.close()
 
-        # DB Update
-        record_ids = [rec['id'] for rec in records]
-        supabase.table('ai_logs').update({'training_status': 'trained'}).in_('id', record_ids).execute()
-        try: supabase.table('model_versions').update({'is_active': False}).eq('is_active', True).execute()
-        except: pass
-            
+        # --- Database Logging ---
+        model_url = f"https://huggingface.co/spaces/{REPO_ID}/resolve/main/{repo_model_path}"
+        metrics_url = f"https://huggingface.co/spaces/{REPO_ID}/resolve/main/{cm_path_in_repo}"
+
         supabase.table('model_versions').insert({
-            'version_name': new_version, 'file_path': new_model_filename,
-            'training_image_count': len(image_paths), 'accuracy_score': acc, 'is_active': True
-        }).execute()
-        supabase.table('model_evaluations').insert({
-            'model_version': new_version, 'accuracy': acc, 'f1_score': f1, 'confusion_matrix_url': plot_url
+            "version_name": version_name,
+            "file_path": repo_model_path,
+            "metrics": {"accuracy": accuracy, "f1_score": f1},
+            "config": params.dict(),
+            "is_active": False,
+            "metrics_url": metrics_url,
+            "model_url": model_url
         }).execute()
 
-        print(f"--- Training Complete! Version: {new_version} saved as {new_model_filename} ---")
+        # Update status of trained records
+        trained_ids = [rec['id'] for rec in records]
+        supabase.table('ai_logs').update({'training_status': 'trained'}).in_('id', trained_ids).execute()
+        
+        print(f"--- Training Complete. Model '{version_name}' saved and logged. ---")
 
     except Exception as e:
-        print(f"Training Task Failed: {e}")
+        print(f"An error occurred during the training task: {e}")
     finally:
-        import shutil
-        shutil.rmtree(temp_dir, ignore_errors=True)
+        # Clean up temp directory
+        for root, dirs, files in os.walk(temp_dir, topdown=False):
+            for name in files: os.remove(os.path.join(root, name))
+            for name in dirs: os.rmdir(os.path.join(root, name))
+        os.rmdir(temp_dir)
+        print("Temporary directory cleaned up.")
