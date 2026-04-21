@@ -99,5 +99,20 @@ def load_model(model_path=None):
     model_instance = model
     print(f"Model ({os.path.basename(model_path) if model_path else os.path.basename(DEFAULT_MODEL_PATH)}) loaded successfully!")
 
-# Initialize with the default model on startup
-load_model()
+# --- Model Configuration ---
+DEFAULT_MODEL_PATH = 'butterfly_model_v1.pth'
+CURRENT_MODEL_PATH = 'butterfly_model_v1.pth' # Default model
+
+# Initialize with the active model on startup
+from config import supabase
+
+def get_active_model_path():
+    try:
+        response = supabase.table('model_versions').select('file_path').eq('is_active', True).single().execute()
+        if response.data:
+            return response.data['file_path']
+    except Exception as e:
+        print(f"Could not fetch active model, falling back to default. Error: {e}")
+    return DEFAULT_MODEL_PATH
+
+load_model(get_active_model_path())
