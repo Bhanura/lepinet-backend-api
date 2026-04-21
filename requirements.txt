@@ -11,3 +11,4 @@ seaborn
 matplotlib
 supabase
 huggingface-hub
+python-dotenv
