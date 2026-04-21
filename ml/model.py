@@ -1,10 +1,10 @@
-import torch
-import timm
-import json
-import pandas as pd
-from torchvision import transforms
-from config import NUM_CLASSES, CURRENT_MODEL_PATH, MAPPING_PATH, CSV_PATH, supabase
 import os
+import torch
+import torch.nn as nn
+from torchvision import transforms, models
+import pandas as pd
+from config import NUM_CLASSES, CURRENT_MODEL_PATH, MAPPING_PATH, CSV_PATH, supabase
+import json
 
 # Global State Variables (වෙනත් ෆයිල් වලට පාවිච්චි කිරීමට)
 model_instance = None
